@@ -1,2 +1,2 @@
 # learnMusic2
-Learn Music &amp; C#
+Learn Music whilst discovering the C# fundamentals
