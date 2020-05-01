@@ -76,3 +76,8 @@ node_modules/
 ncrunchtemp*
 /.axoCover
 /.vs/**/*
+/v16/
+/DesignTimeBuild*/
+
+/.vs/learnMusic/v16/TestStore/*
+/.vs/ProjectSettings.json

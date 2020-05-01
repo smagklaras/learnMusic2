@@ -4,7 +4,7 @@ using System.Text;
 
 namespace learnMusic.Model
 {
-    class Note
+    public class Note
     {
         /// <summary>
         /// the note name
@@ -23,9 +23,15 @@ namespace learnMusic.Model
         /// </summary>
         public string Name => name;
 
-        public Note(string name, decimal pitch)
+        public Note(NotesItalian name, decimal pitch)
         {
-            this.name = name;
+            this.name = name.ToString();
+            this.pitch = pitch;
+        }
+
+        public Note(NotesWestern name, decimal pitch)
+        {
+            this.name = name.ToString();
             this.pitch = pitch;
         }
     }
