@@ -6,12 +6,18 @@ namespace learnMusic.Model
 {
     public class Note
     {
+        private const int MinOctave     = 1;
+        private const int MaxOctave     = 8;
+        private const int InitialOctave = 4;
+
         private readonly string name;
 
         private NoteState state;
+        
+        private int currentOctave = 4;
 
         private readonly decimal pitch;
-        private readonly decimal[] midFrequencies = new decimal[]
+        private static readonly decimal[] midFrequencies = new decimal[]
         {
             261.63m, // Do4
             293.66m, // Re4
@@ -20,7 +26,9 @@ namespace learnMusic.Model
             392.00m, // Sol4
             440.00m, // La4
             493.88m  // Si4
-        };  
+        };
+
+        public int Octave => currentOctave;
 
         /// <summary>
         /// e.g. 440 HZ for middle A
@@ -29,17 +37,30 @@ namespace learnMusic.Model
         {
             get
             {
+                var currentPitch = CalculateOctavePitch(pitch);
                 switch (state)
                 {
                     case NoteState.Flat:
-                        return pitch - 20;
+                        return ModifyPitch(currentPitch, -20);
                     case NoteState.Sharp:
-                        return pitch + 20;
+                        return ModifyPitch(currentPitch, 20);
                     default:
-                        return pitch; ;
+                        return currentPitch; 
                 }
                 
             }
+        }
+
+        private decimal CalculateOctavePitch(decimal pitch)
+        {
+            int step = (currentOctave - InitialOctave);
+            decimal newPitch = pitch + (step * 180);
+            return newPitch;
+        }
+
+        private decimal ModifyPitch(decimal pitch, int value)
+        {
+            return pitch + value;
         }
 
         /// <summary>
@@ -68,7 +89,7 @@ namespace learnMusic.Model
         public Note(NotesItalian name)
         {
             this.name = name.ToString();
-            this.pitch = GetInitialPitch();
+            this.pitch = GetInitialPitch(this.name);
         }
 
         /// <summary>
@@ -76,8 +97,8 @@ namespace learnMusic.Model
         /// </summary>
         public Note(NotesWestern name)
         {
-            this.name = name.ToString();
-            this.pitch = GetInitialPitch();
+            this.name  = name.ToString();
+            this.pitch = GetInitialPitch(this.name);
         }
 
         /// <summary>
@@ -86,6 +107,28 @@ namespace learnMusic.Model
         public void Flatten()
         {
             state = NoteState.Flat;
+        }
+
+        /// <summary>
+        /// Flatten note
+        /// </summary>
+        public void OctaveUp()
+        {
+            if (currentOctave < MaxOctave)
+            {
+                currentOctave++;
+            }
+        }
+
+        /// <summary>
+        /// Flatten note
+        /// </summary>
+        public void OctaveDown()
+        {
+            if (currentOctave > MinOctave)
+            {
+                currentOctave--;
+            }
         }
 
         /// <summary>
@@ -104,10 +147,11 @@ namespace learnMusic.Model
             state = NoteState.Tonal;
         }
 
-        private decimal GetInitialPitch()
+        
+        private static decimal GetInitialPitch(string noteName)
         {
             decimal pitch = 0m;
-            switch (name)
+            switch (noteName)
             {
                 case "Do": 
                     pitch = midFrequencies[0];

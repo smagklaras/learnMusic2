@@ -67,5 +67,35 @@ namespace learnMusicTests
             Assert.AreEqual(NotesItalian.La.ToString(), note1.Name);
             Assert.AreEqual(pitchExpected, note1.Pitch);
         }
+
+        [TestMethod]
+        public void Test_OctaveUp()
+        {
+            // arrange
+            const decimal pitchExpected = 620.00m;
+            var note1 = new Note(NotesItalian.La);
+
+            // act
+            note1.OctaveUp();
+
+            // assert
+            Assert.AreEqual(NotesItalian.La.ToString(), note1.Name);
+            Assert.AreEqual(pitchExpected, note1.Pitch);
+        }
+
+        [TestMethod]
+        public void Test_OctaveDown()
+        {
+            // arrange
+            const decimal pitchExpected = 260.00m;
+            var note1 = new Note(NotesItalian.La);
+
+            // act
+            note1.OctaveDown();
+
+            // assert
+            Assert.AreEqual(NotesItalian.La.ToString(), note1.Name);
+            Assert.AreEqual(pitchExpected, note1.Pitch);
+        }
     }
 }
